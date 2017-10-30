@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">My Activities</string>
+    <string name="menu_log_task">Log</string>
+    <string name="menu_settings">Settings</string>
+
+
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$d task logged</item>
+        <item quantity="other">%1$d tasks logged</item>
+    </plurals>
+
+    <string name="task_title_label">Title</string>
+
+    <string name="task_title_hint">Enter a title for the task.</string>
+    <string name="task_photo_descriptor">Photo of task logged.</string>
+    <string name="task_camera_button_descriptor">Button to capture photo of task.</string>
+
+    <string name="task_details_label">Details</string>
+
+    <string name="task_type_label">Type:</string>
+    <string-array name="task_types">
+        <item>Work</item>
+        <item>Study</item>
+        <item>Leisure</item>
+        <item>Sport</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="task_place_prompt">Location</string>
+    <string name="task_place_button_text">Place: %s</string>
+    <string name="task_place_empty">No Location Set</string>
+
+    <string name="title_activity_task_place">Task Location</string>
+
+    <string name="date_button_text">Date: %s</string>
+    <string name="date_picker_label">Date of task:</string>
+
+    <string name="time_button_text">Time: %s</string>
+    <string name="time_picker_title">Time of task:</string>
+
+    <string name="task_duration_label">Duration: </string>
+    <string name="task_duration_prompt">How long?</string>
+
+    <string name="task_comment_label">Comments</string>
+    <string name="task_comment_hint">Any comments or other details you would like to log...</string>
+
+    <string name="save_task_label">Save Task</string>
+    <string name="cancel_task_creation_label">Cancel</string>
+    <string name="delete_task_label">Delete Task</string>
+
+    <string name="user_name_label">Name</string>
+    <string name="user_name_prompt">Your name:</string>
+    <string name="user_email_label">E-mail:</string>
+    <string name="user_email_prompt">Your email address</string>
+    <string name="user_gender_label">Gender</string>
+    <string name="user_gender_prompt">Eg. Male, Female or Other&#8230;</string>
+    <string name="user_comment_label">Comments</string>
+    <string name="user_comment_prompt">Space for you to enter any additional comments about yourself.</string>
+
+    <string name="dummy_user_name">Buddy Lite</string>
+    <string name="dummy_user_email">tester@j-kemp.com</string>
+    <string name="dummy_user_gender">Unspecified</string>
+    <string name="dummy_user_comment">Lorem ipsum dolor sit amet&#8230;</string>
+
+
+</resources>

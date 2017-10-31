@@ -102,8 +102,10 @@ public class TaskLog {
     public void updateTask(Task task){
         String uuidString = task.getID().toString();
         ContentValues values = getContentValues(task);
+        Log.d(TAG, "Values retrieved from java class.");
 
         mDatabase.update(TaskTable.NAME, values, TaskTable.Cols.UUID + " = ?", new String[]{uuidString});
+        Log.d(TAG, "Values saved to SQLite db.");
     }
 
     public void deleteTask(Task task){
@@ -115,7 +117,7 @@ public class TaskLog {
      * Method to perform queries against the Task Table in our SQLite database.
      * @param whereClause - any filtering fields
      * @param whereArgs - filter to be applied
-     * @return ("Wrapped") Cursor object to iterate through results.
+     * @return (Wrapped) Cursor object to iterate through results.
      */
     private TaskCursorWrapper queryTasks(String whereClause, String[] whereArgs){
         Cursor cursor = mDatabase.query(

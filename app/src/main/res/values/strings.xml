@@ -48,17 +48,26 @@
     <string name="cancel_task_creation_label">Cancel</string>
     <string name="delete_task_label">Delete Task</string>
 
+    <string name="permission_location_title">Need Location Access</string>
+    <string name="permission_location_message">This app needs location permissions to save your current location when you log a new activity record. Please choose allow for full functionality.</string>
+
+    <string name="map_marker_current">You are here</string>
+
+    <string name="user_fixed_id">777</string>
     <string name="user_name_label">Name</string>
     <string name="user_name_prompt">Your name:</string>
     <string name="user_email_label">E-mail:</string>
     <string name="user_email_prompt">Your email address</string>
+    <string name="user_id_label">ID</string>
+    <string name="user_id_prompt">Some form of Identifier</string>
     <string name="user_gender_label">Gender</string>
-    <string name="user_gender_prompt">Eg. Male, Female or Other&#8230;</string>
+    <string name="user_gender_prompt">Eg. Male, Female, Other&#8230;</string>
     <string name="user_comment_label">Comments</string>
     <string name="user_comment_prompt">Space for you to enter any additional comments about yourself.</string>
 
     <string name="dummy_user_name">Buddy Lite</string>
     <string name="dummy_user_email">tester@j-kemp.com</string>
+    <string name="dummy_user_id">#4h@Ha</string>
     <string name="dummy_user_gender">Unspecified</string>
     <string name="dummy_user_comment">Lorem ipsum dolor sit amet&#8230;</string>
 

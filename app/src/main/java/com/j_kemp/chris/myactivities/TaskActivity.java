@@ -11,9 +11,8 @@ import java.util.UUID;
  * Created by Christopher Kemp on 19/10/17.
  */
 
-public class TaskActivity extends SingleFragmentActivity
-        implements TaskFragment.Callbacks{
-
+public class TaskActivity extends SingleFragmentActivity {
+    private static final String TAG = "TaskActivity";
     public static final String EXTRA_TASK_ID = "com.j-kemp.chris.myactivities.task_id";
 
     public static Intent newIntent(Context packageContext, UUID taskId){
@@ -27,9 +26,4 @@ public class TaskActivity extends SingleFragmentActivity
         UUID taskId = (UUID) getIntent().getSerializableExtra(EXTRA_TASK_ID);
         return TaskFragment.newInstance(taskId);
     }
-
-    @Override
-    public void onTaskUpdated(Task task){ }
-
-
 }

@@ -38,21 +38,18 @@ public class TaskBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + TaskDbSchema.UsersTable.NAME + "(" +
                 " _id integer primary key, " +
+                TaskDbSchema.UsersTable.Cols.ID + ", " +
                 TaskDbSchema.UsersTable.Cols.NAME + ", " +
-                TaskDbSchema.UsersTable.Cols.USER_ID + ", " +
                 TaskDbSchema.UsersTable.Cols.EMAIL + ", " +
+                TaskDbSchema.UsersTable.Cols.USER_ID + ", " +
                 TaskDbSchema.UsersTable.Cols.GENDER + ", " +
                 TaskDbSchema.UsersTable.Cols.COMMENT + ")"
         );
     }
 
-    /**
-     * Currently unused, but required method for SQLiteHelper.
-     * This would allow for database upgrades in future.
-     * @param db
-     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        /*Currently unused, but required method for SQLiteHelper.
+        * This would allow for database upgrades in future.*/
     }
 }

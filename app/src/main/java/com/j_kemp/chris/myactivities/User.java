@@ -1,33 +1,30 @@
 package com.j_kemp.chris.myactivities;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 /**
- * User object for holding values related to the current user.
+ * User object for holding values related to the user.
  * Created by Christopher Kemp on 15/10/17.
  */
 
-public class User {
-    private UUID mUUID;
+public class User implements Serializable {
+    private String mID;
     private String mName;
     private String mEmail;
+    private String mUserID;
     private String mGender;
     private String mComment;
 
     public User() {
-        this(UUID.randomUUID());
+        this("777");
     }
 
-    public User(UUID id) {
-        mUUID = id;
+    public User(String id) {
+        mID = id;
     }
 
-    public UUID getUUID() {
-        return mUUID;
-    }
-
-    public void setUUID(UUID UUID) {
-        mUUID = UUID;
+    public String getID() {
+        return mID;
     }
 
     public String getName() {
@@ -44,6 +41,14 @@ public class User {
 
     public void setEmail(String email) {
         mEmail = email;
+    }
+
+    public String getUserID() {
+        return mUserID;
+    }
+
+    public void setUserID(String userID) {
+        mUserID = userID;
     }
 
     public String getGender() {

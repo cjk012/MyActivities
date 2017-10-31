@@ -1,6 +1,6 @@
 package com.j_kemp.chris.myactivities;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import java.util.List;
 
 /**
@@ -28,20 +27,6 @@ public class TaskListFragment extends Fragment {
 
     private RecyclerView mTaskRecyclerView;
     private TaskAdaptor mAdaptor;
-    private Callbacks mCallbacks;
-
-    /**
-     * Required interface for hosting activities.
-     */
-    public interface Callbacks {
-        void onTaskSelected(Task task);
-    }
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        mCallbacks = (Callbacks) context;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,12 +58,6 @@ public class TaskListFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_task_list, menu);
@@ -92,10 +71,12 @@ public class TaskListFragment extends Fragment {
                 Log.d(TAG, task.getID().toString());
                 TaskLog.get(getActivity()).addTask(task);
                 updateUI();
-                mCallbacks.onTaskSelected(task);
+                Intent intent = TaskActivity.newIntent(getActivity(), task.getID());
+                startActivity(intent);
                 return true;
             case R.id.settings_menu:
-                getActivity().invalidateOptionsMenu();
+                Intent settingsIntent = new Intent(getActivity(), UserActivity.class);
+                startActivity(settingsIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -128,7 +109,6 @@ public class TaskListFragment extends Fragment {
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         private Task mTask;
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -151,7 +131,8 @@ public class TaskListFragment extends Fragment {
 
         @Override
         public void onClick(View view){
-            mCallbacks.onTaskSelected(mTask);
+            Intent intent = TaskActivity.newIntent(getActivity(), mTask.getID());
+            startActivity(intent);
         }
     }
 

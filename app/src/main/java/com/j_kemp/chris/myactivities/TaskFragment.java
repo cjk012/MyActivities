@@ -1,27 +1,29 @@
 package com.j_kemp.chris.myactivities;
 
+import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,11 +43,16 @@ import static android.widget.CompoundButton.OnClickListener;
 
 public class TaskFragment extends Fragment {
     private static final String TAG = "ck.TaskFragment";
-
     private static final String ARG_TASK_ID = "task_id";
+    private static final String ARG_TASK_OBJECT = "task_object";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_PHOTO = 1;
+    private static final int REQUEST_LOCATION_PERMISSIONS = 77;
+    private static final String[] LOCATION_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+    };
 
     private Task mTask;
     private File mPhotoFile;
@@ -55,17 +62,11 @@ public class TaskFragment extends Fragment {
     private ImageButton mPhotoButton;
     private Button mDateButton;
     private Button mPlaceButton;
+    private EditText mDuration;
     private EditText mCommentField;
     private Button mSaveButton;
     private Button mDeleteButton;
-    private Callbacks mCallbacks;
 
-    /**
-     * Required interface for hosting activities.
-     */
-    public interface Callbacks {
-        void onTaskUpdated(Task task);
-    }
 
     public static TaskFragment newInstance(UUID taskId) {
         Bundle args = new Bundle();
@@ -77,29 +78,18 @@ public class TaskFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallbacks = (Callbacks) context;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID taskId = (UUID) getArguments().getSerializable(ARG_TASK_ID);
         mTask = TaskLog.get(getActivity()).getTask(taskId);
         mPhotoFile = TaskLog.get(getActivity()).getPhotoFile(mTask);
+        checkPermissionLocation();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         TaskLog.get(getActivity()).updateTask(mTask);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
     }
 
     @Override
@@ -137,7 +127,7 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // No action required
             }
         });
 
@@ -155,16 +145,29 @@ public class TaskFragment extends Fragment {
 
         mPlaceButton = (Button) v.findViewById(R.id.task_place);
         updatePlace();
+        mPlaceButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPermissionLocation();
+                TaskGMapFragment gMapFrag = new TaskGMapFragment();
+                Bundle pushBundle = new Bundle();
+                pushBundle.putSerializable(ARG_TASK_OBJECT, mTask);
+                gMapFrag.setArguments(pushBundle);
+                FragmentManager manager = getFragmentManager();
+                manager.beginTransaction()
+                        .replace(R.id.fragment_container, gMapFrag)
+                        .addToBackStack(this.toString())
+                        .commit();
+            }
+        });
 
         PackageManager packageManager = getActivity().getPackageManager();
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.task_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         boolean canTakePhoto = ((mPhotoFile != null) &&
                 (captureImage.resolveActivity(packageManager) != null));
         mPhotoButton.setEnabled(canTakePhoto);
-
         mPhotoButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,10 +182,31 @@ public class TaskFragment extends Fragment {
 
                 for (ResolveInfo activity : cameraActivities) {
                     getActivity().grantUriPermission(activity.activityInfo.packageName,
-                            uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION); // Grant camera permission to write into app's private data folder.
+                            uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    // Grant camera permission to write into app's private data folder.
                 }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
+
+        mDuration = (EditText) v.findViewById(R.id.task_duration);
+        mDuration.setText(mTask.getDuration());
+        mDuration.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTask.setDuration(s.toString());
+                updateTask();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //Do nothing
             }
         });
 
@@ -242,18 +266,17 @@ public class TaskFragment extends Fragment {
             updateTask();
             updateDate();
         } else if (requestCode == REQUEST_PHOTO) {
-            Uri uri = FileProvider.getUriForFile(getActivity(), "com.j_kemp.chris.myactivities.fileprovider", mPhotoFile);
-
+            // Stop the camera app accessing internal files while we are not trying to capture.
+            Uri uri = FileProvider.getUriForFile(getActivity(),
+                    "com.j_kemp.chris.myactivities.fileprovider", mPhotoFile);
             getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-            updateTask();
             updatePhotoView();
         }
     }
 
     private void updateTask() {
         TaskLog.get(getActivity()).updateTask(mTask); // Save the changes to the model.
-        mCallbacks.onTaskUpdated(mTask); // Inform hosting Activity of changes.
     }
 
     private void updateDate() {
@@ -270,6 +293,33 @@ public class TaskFragment extends Fragment {
         } else {
             Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
+        }
+    }
+
+    private void checkPermissionLocation() {
+        Log.d(TAG, "Check Permissions: ");
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            Log.d(TAG, "Not granted");
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)){
+                Log.d(TAG, "Creating Request");
+                AlertDialog.Builder requestPermissions = new AlertDialog.Builder(getActivity());
+                requestPermissions.setTitle(R.string.permission_location_title)
+                        .setMessage(R.string.permission_location_message)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSIONS);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSIONS);
+            }
         }
     }
 }

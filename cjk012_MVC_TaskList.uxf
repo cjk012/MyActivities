@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>100</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Tasks_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>510</y>
+      <w>330</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>RecyclerView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>520</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>com.j_kemp.chris.myactivities::TaskLog
+--
+-TAG = "TaskLog": String
+-sTaskLog: TaskLog
+-mContext: Context
+-mDatabase: SQLiteDatabase
+--
+-TaskLog(Context context): ctor
++get(Context context): TaskLog
++addTask(Task t): void
++getTasks(): List&lt;Task&gt;
++getTask(UUID id): Task
++getPhotoFile(Task task): File
++updateTask(Task task): void
++deleteTask(Task task): void
+-queryTasks(String whereClause, String[] whereArgs): TaskCursorWrapper
+-getContentValues(Task task): ContentValues
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>0</y>
+      <w>660</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>com.j_kemp.chris.myactivities::TaskListFragment
+--
+-TAG = "TaskListFragment": String
+-mTaskRecyclerView: RecyclerView
+-mAdaptor: TaskAdaptor
+--
++onCreate(Bundle savedInstanceState): void
++onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState): View
++onResume(): void
++onSaveInstanceState(Bundle outState): void
++onCreateOptionsMenu(Menu menu, MenuInflater inflater): void
++onOptionsItemSelected(MenuItem item): boolean
++updateUI(): void
+-updateSubtitle(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>380</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>TaskListActivity</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>560</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView
+b</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>570</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>580</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>590</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>600</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>610</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>620</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>630</y>
+      <w>90</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>550</x>
+      <y>630</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>--
+TextView
+--
+TextView
+--
+TextView</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>310</x>
+      <y>30</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Task_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>50</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Task_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>290</x>
+      <y>10</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Task_
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>290</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Task_
+--
+mID
+mTitle
+mDate
+mType
+mDuration
+mPlaceLat
+mPlaceLon
+mPlaceFriendly
+mComment
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>20</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Task_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>40</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>_Task_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>670</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>FrameLayout</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
